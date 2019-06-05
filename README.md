@@ -9,7 +9,7 @@ In this 3D Label Tool the user utilizes Oculus VR in order to label and annotate
 
 ## Installation
 
-1.  Ensure that you have an Oculus Rift and two Oculus Touch Controllers at your disposal. [Create an account](https://www.oculus.com/) in Oculus and download the program [here](https://www.oculus.com/setup/). Make sure that you download the program applicable to your Oculus device.
+1.  Ensure that you have an Oculus Rift and two Oculus Touch Controllers at your disposal. [Create an account](https://secure.oculus.com/sign-up/) in Oculus and download the program [here](https://www.oculus.com/setup/). Make sure that you download the program applicable to your Oculus device.
 
 2.  [Create an account](https://id.unity.com/conversations/3270558a-4b1e-48e9-8d68-e94bc58c04fe005f) in Unity and download a version of the Unity Editor. We recommend using the version Unity 2017.4.8 (this and other versions can be found [here](https://unity3d.com/get-unity/download/archive)).
 
