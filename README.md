@@ -65,3 +65,13 @@ If you are satisfied with your track, press `B` again and continue with the next
 | **B** | create a new track |
 | **A** | set a new box within the current scene |
 
+
+## Contributors
+
+Florian Wirth
+
+Maqsood Rajput
+
+Konstantin Tsenkov
+
+Justin Knipper
