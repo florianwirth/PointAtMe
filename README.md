@@ -1,4 +1,6 @@
-# 3D Label Tool for Annotating Point Clouds with Oculus VR
+# PointAtMe
+
+#### A 3D Label Tool for Annotating Point Clouds with Oculus VR
 
 ## Overview
 
@@ -7,9 +9,9 @@ In this 3D Label Tool the user utilizes Oculus VR in order to label and annotate
 
 ## Installation
 
-1.  Ensure that you have an Oculus Rift at your disposal. Create an account in [Oculus](https://www.oculus.com/) and download the program [here](https://www.oculus.com/setup/). Make sure that you download the program applicable to your Oculus device.
+1.  Ensure that you have an Oculus Rift and two Oculus Touch Controllers at your disposal. [Create an account](https://www.oculus.com/) in Oculus and download the program [here](https://www.oculus.com/setup/). Make sure that you download the program applicable to your Oculus device.
 
-2.  Create an account in [Unity](https://unity.com/) and download a version of it (older versions can be found [here](https://unity3d.com/de/get-unity/download/archive)). This program was tested on Unity 2017.4.8, so we recommend using this.
+2.  [Create an account](https://id.unity.com/conversations/3270558a-4b1e-48e9-8d68-e94bc58c04fe005f) in Unity and download a version of the Unity Editor. We recommend using the version Unity 2017.4.8 (this and other versions can be found [here](https://unity3d.com/get-unity/download/archive)).
 
 3.  Download the files from this repository (for example as a zip in which case you can extract the files to your computer).
 
@@ -18,17 +20,17 @@ In this 3D Label Tool the user utilizes Oculus VR in order to label and annotate
 
 ## Setting up the Label Tool
 
-1.  Open **Unity** and create a new project. Make sure to use the 3D Template. You can name the project however you want to and save it in a location that makes sense to you (make sure to remember the file location!). Create the project.
+1.  Open **Unity Editor** and create a new project. Make sure to use the 3D Template. You can name the project however you want to and save it in a location that makes sense to you (make sure to remember the file location!). Create the project.
 
-2.  Once **Unity** has opened the project you can see the basic unity scene. You should see the tabs **Scene**, **Game** and **Asset Store** right above the basic unity scene. Below and to the left of this scene you should be able to see the tabs **Project** and **Console**. These will be important at a later stage.
+2.  Once **Unity Editor** has opened the project you can see the basic unity scene. You should see the tabs **Scene**, **Game** and **Asset Store** right above the basic unity scene. Below and to the left of this scene you should be able to see the tabs **Project** and **Console**. These will be important at a later stage.
 
-3.  Minimize **Unity** and go to the folder where your new unity project is saved. Add the folders **3DLabelAsset**, **ImportPointCloudAsset** and the file **scene_1.unity** (that you have downloaded from this repository) to the folder **Assets** of the new unity project.
+3.  Minimize **Unity Editor** and go to the folder where your new unity project is saved. Add the folders **3DLabelAsset**, **ImportPointCloudAsset** and the file **scene_1.unity** (that you have downloaded from this repository) to the folder **Assets** of the new unity project.
 
 4.  Add another folder named **RecordedData** to the **Assets** folder (it’s technically not an asset, it’s just a folder where the data lies). In the folder **RecordedData** create five further folders named **pcd**, **front**, **rear**, **left** and **right**. The **pcd** folder will contain all the point clouds and make sure to **only use .pcd files in ASCII format**. The remaining four folders contain images of the corresponding cameras. **Only use .png files** in these folders.
 
-5.  Re-open **Unity** and go to the **Project** tab that you have seen before (in step 2 of setting up the label tool). In the folder **Assets** you should be able to see **scene_1**. Double click on this to open the scene in unity. 
+5.  Re-open **Unity Editor** and go to the **Project** tab that you have seen before (in step 2 of setting up the label tool). In the folder **Assets** you should be able to see **scene_1**. Double click on this to open the scene in unity. 
 
-6.  You have to change the variable **path**. This can be found in the **Assets** folder of the **Project** tab of Unity. To change the variable, you have to click on the folder **3DLabelAsset** -> **Scripts** -> **LabelToolManager**. You must change the variable **path**  (this should be in the first 10 lines of code) to match the file location of your unity project. Be sure to add a slash **/** at the end of the file location. 
+6.  You have to change the variable **path**. This can be found in the **Assets** folder of the **Project** tab of **Unity Editor**. To change the variable, you have to click on the folder **3DLabelAsset** -> **Scripts** -> **LabelToolManager**. You must change the variable **path**  (this should be in the first 10 lines of code) to match the file location of your unity project. Be sure to add a slash **/** at the end of the file location. 
 
 7.  Finally, to import the asset **Oculus Integration**, go to the menu bar and click on **Assets** -> **Import Package** -> **Custom Package**. Go to the folder where you downloaded the oculus integration asset (in step 4 of the installation process) and select **OculusUtilities.unitypackage** in the folder **OculusUtilities**. Import all parts of the asset.
 
@@ -39,7 +41,7 @@ In this 3D Label Tool the user utilizes Oculus VR in order to label and annotate
 
 ## Using the Label Tool
 
-You can start the tool by hitting `Play` in Unity. When you place your Oculus VR over your head, you can see the first point cloud of the sequence around you and might be able to recognize shapes that belong to pedestrians or cars. Have a look at your controllers. You can see them and an estimated shape of your hands is visualized. We added descriptions of the functionality to each button, so you don't have to keep their function in mind. However, we expect any annotator to remember them after a short period of labeling time.
+You can start the tool by hitting `Play` in Unity Editor. When you place your Oculus VR over your head, you can see the first point cloud of the sequence around you and might be able to recognize shapes that belong to pedestrians or cars. Have a look at your controllers. You can see them and an estimated shape of your hands is visualized. We added descriptions of the functionality to each button, so you don't have to keep their function in mind. However, we expect any annotator to remember them after a short period of labeling time.
 
 We separated the functionality of the Oculus Touch Controllers in a way we hope is intuitive and well structured. The left controller has functions related to understanding the scene. You can scroll through the sequence, turn the scene or fix the dummy box in your hand. With the right controller, you enforce the actual labeling tasks. You can set tracks and boxes, choose a track you would like to modify and work yourself through dialogs defining meta information about the traffic participant.
 
@@ -64,6 +66,22 @@ If you are satisfied with your track, press `B` again and continue with the next
 | **right index trigger** | accept dialog |
 | **B** | create a new track |
 | **A** | set a new box within the current scene |
+
+
+## Citation
+
+If you are using PointAtMe for scientific research, we would be pleased if you would cite our publication:
+```latex
+@inproceedings{,
+  title     = {},
+  author    = {},
+  booktitle = {},
+  year      = {},
+  address   = {},
+  owner     = {},
+  month     = {},
+}
+```
 
 
 ## Contributors
