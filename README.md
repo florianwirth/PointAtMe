@@ -4,7 +4,7 @@
 
 ## Overview
 
-In this 3D Label Tool the user utilizes Oculus VR in order to label and annotate various traffic participants. The user is placed into the scene and can move around, identifying traffic participants. Information about these can then be defined and assigned.
+In this 3D Label Tool the user utilizes Oculus VR in order to label and annotate various traffic participants. The user is placed into the scene and can move around, identifying traffic participants. Information about these, for example about the type of traffic participant and in which direction the traffic participant is moving relative to the ego vehicle, can be defined.
 
 
 ## Installation
@@ -43,11 +43,15 @@ In this 3D Label Tool the user utilizes Oculus VR in order to label and annotate
 
 You can start the tool by hitting `Play` in Unity Editor. When you place your Oculus VR over your head, you can see the first point cloud of the sequence around you and might be able to recognize shapes that belong to pedestrians or cars. Have a look at your controllers. You can see them and an estimated shape of your hands can be seen around your controllers. We added descriptions of the functionality of each button so you don't have to keep their function in mind. However, we expect any annotator to remember them after a short period of labeling time.
 
+![](figures/screenshot3_.png)
+
 We separated the functionality of the Oculus Touch Controllers in a way we hope is intuitive and well structured. The left controller has functions related to understanding the scene. You can scroll through the sequence, turn the scene or fix the dummy box in your hand. With the right controller, you enforce the actual labeling tasks. You can set tracks and boxes, choose a track you would like to modify and work yourself through dialogs defining meta information about the traffic participant. Tracks are used to give the user information about the vehicle that is being labeled. 
 
 With the `left hand trigger`, which you can reach with your middle finger, the point cloud can be grabbed, turned and shifted. Try to familiarize with the scene and turn the point cloud in a way so you can clearly see a traffic participant in front of you. Now press and hold `Y` on your left controller. Four images taken in the current scene appear. Make yourself familiar with the scene. Would you understand the traffic rules that apply in the current scene? If not, diving through the sequence may help you in order to do so. Push the `left thumbstick` to the right in order to switch between the point clouds. To go back to the first scene, push it to the left. Each use of the `left thumbstick` increases or decreases the current sequence index by exactly 1, so it might take a while to have a look at the whole sequence.
 
 Now that you understand the traffic scene, press `B` on the right controller in order to create a new track. The New Track Dialog pops up. Choose the options that apply to the traffic participant that you would like to annotate by pushing the `right thumbstick` up or down. If the desired answer is selected, pull the `right index trigger` with your index finger. After answering all questions you can start annotating the first track. The counter in the upper left shows how many tracks you have already created and which track you are currently working on. Place both of your controllers in a way so that the reshapeable box completely surrounds every point that belongs to the object. The red spheres define two diametrical corners of the box. The coordinate axes that stick to the red sphere on the right controller define the orientation of the box. Your left hand therefore only influences the size and the position of the middle of the box but not its orientation. If you want to fix the roll and the pitch angle of the box, press the `left index trigger`. As soon as the box is in the desired position, press `A` on your right controller in order to set the box. Turn the scene to check whether all points are within the box. You can modify a cuboid as long as it is red. If you are not satisfied with its position, place another box at a random position in space to receive a good view of the points on the surface of the object again. Now you can place a box that fits to the object better than the first one.
+
+![](figures/screenshot2_.png)
 
 Let's have a closer look at the reshapeable dummy box, how it is visualized and how the two red spheres around it define the box. The walls of the box are tinted dark but is still transparent, so you can clearly see whether a point that belongs to an object unintentionally leaves the box. Also have a look at the symmetry of the points of the object. In some cases the human annotator has to guess the scale of the object and it is recommended to do so by assuming a symmetric shape with respect to the longitudinal vehicle axis. Now go through the whole sequence and look for the object you are currently labeling. Annotate it, until it does not occur in the point cloud any more. The detections do not have to be in every single frame and not even in a closed sequence. If a vehicle disappears behind a truck for example, skip a few frames and keep annotating the object when it appears again. Set a box by pressing `A` on the right controller. After any annotation, you are asked for the quality of the box. 
 
@@ -58,14 +62,17 @@ If you are satisfied with your track, press `B` again and continue with the next
 
 | key | function | 
 |-------:|:-------| 
-| **left thumbstick** | switch between scenes  |
+| **left thumbstick** | switch between scenes |
 | **left hand trigger** | grab pointcloud |
-| **left index trigger** | only allow 1D rotation around Y axis / reset pointcloud rotation |.
+| **left index trigger** | only allow 1D rotation around Y axis / reset pointcloud rotation |
+| **X** | change the scale of the image |
 | **Y** | show camera images |
 | **right thumbstick** | switch between set boxes |
 | **right index trigger** | accept dialog |
-| **B** | create a new track |
 | **A** | set a new box within the current scene |
+| **B** | create a new track |
+
+![](figures/haende.png)
 
 
 ## Citation
