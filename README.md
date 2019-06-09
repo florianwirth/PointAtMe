@@ -4,16 +4,15 @@
 
 ## Overview
 
-In this 3D Label Tool the user utilizes Oculus VR in order to label and annotate various traffic participants. The user is placed into the scene and can move around, identifying traffic participants. Information about these, for example about the type of traffic participant and in which direction the traffic participant is moving relative to the ego vehicle, can be defined.
-
+With this 3D Label Tool the user utilizes Oculus VR in order to annotate in 3D point clouds. Originally, the tool was developed for labeling traffic participants, but if could be used for any kind of object. Meta information about traffic participants can be added in-game.
 
 ## Installation
 
-1.  Ensure that you have an Oculus Rift and two Oculus Touch Controllers at your disposal. [Create an account](https://secure.oculus.com/sign-up/) in Oculus and download the program [here](https://www.oculus.com/setup/). Make sure that you download the program applicable to your Oculus device.
+1.  Ensure that you have an Oculus Rift device and two Oculus Touch Controllers at your disposal. [Create an account](https://secure.oculus.com/sign-up/) in Oculus and download the Oculus driver [here](https://www.oculus.com/setup/). Make sure to download the program applicable to your Oculus device.
 
-2.  [Create a Unity ID](https://unity3d.com/de/unity/editor) and download a version of the Unity Editor. We recommend using the version Unity 2017.4.8 (this and other versions can be found [here](https://unity3d.com/get-unity/download/archive)) as this was the version used to develop this tool.
+2.  [Create an account in Unity](https://unity3d.com/de/unity/editor) and download the Unity Editor. We recommend using the version Unity 2017.4.8 (this and other versions can be found [here](https://unity3d.com/get-unity/download/archive)) as this was the version used to develop this tool.
 
-3.  Download the files from this repository (for example as a zip in which case you can extract the files to your computer).
+3.  Download the files from this repository.
 
 4.  Download Oculus Integration [here](https://developer.oculus.com/downloads/package/oculus-utilities-for-unity-5/1.26.0/) and save the file in a location that you can remember.
 
