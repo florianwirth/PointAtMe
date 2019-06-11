@@ -82,7 +82,7 @@ If you are satisfied with your track, press `B` again and continue with the next
 
 ## Citation
 
-If you are using PointAtMe for scientific research, we would be pleased if you would cite our publication:
+If you are using PointAtMe for scientific research, we would be pleased if you cite our publication:
 ```latex
 @inproceedings{,
   title     = {PointAtMe: Efficient 3D Point Cloud Labeling in Virtual Reality},
