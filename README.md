@@ -90,7 +90,7 @@ If you are satisfied with your track, press `B` again and continue with the next
 
 If you are using PointAtMe for for research, we would be pleased if you cite our publication:
 ```latex
-@inproceedings{,
+@inproceedings{wirth2019pointatme,
   title     = {PointAtMe: Efficient 3D Point Cloud Labeling in Virtual Reality},
   author    = {Wirth, Florian and Quehl, Jannik and Ota, Jeffrey and Stiller, Christoph},
   booktitle = {Proc.\ IEEE Intelligent Vehicles Symposium},
