@@ -1,6 +1,6 @@
 # PointAtMe
 
-#### A 3D Label Tool for Annotating Point Clouds with Oculus VR
+#### A 3D Label Tool for Annotating Point Clouds with the Virtual Reality Device Oculus Rift
 
 ## Overview
 
@@ -42,37 +42,43 @@ With this 3D Label Tool the user utilizes Oculus VR in order to annotate in 3D p
     4. In the script `ShowImages` (that can be found in the same location as `LabelToolManager` from step 6 of the setup process) you can change the variables `ratio` and `Scale` to specify the size of the images shown. It might take a few tries to find an image size that works for you. This step is optional as there is already a standard size the images are set to.    
     5. In the script `PointCloudManager` there are the variables `sensorHeight` and `upperHeight`. The rainbow color scheme can be adjusted according to those parameters. `sensorHeight` defines the height under the sensor that is interesting for you (usually the height of the sensor above the ground) and `upperHeight` defines the height **above the ground**, that is interesting for you. So `upperHeight - sensorHeight` is the height of interest above the sensor itself.
     6. In the script `TurnPointcloud` the variable `speed_mltplr` (speed multiplier) defines the factor between real translatory shift of the controller (when point cloud is grabbed) and the translatory shift of the point cloud itself. Usually this value is way larger that 1 in order to minimize the physical effort when moving the point cloud. 
+    
+## Safety Instruction
+
+In our tool, we did not include a floor or horizon with which an annotator could oneself. That's why turning the point cloud with 6 DOF might yield to motion sickness or loosing orientation. We therefore recommend to sit down during annotation. Noone can assure your safety if you label while standing. Furthermore, we advise you to make a break every now and then to prevent motion sickness or headache.
 
 
 ## Using the Label Tool
 
-You can start the tool by hitting `Play` in Unity Editor. When you place your Oculus VR over your head, you can see the first point cloud of the sequence around you and might be able to recognize shapes that belong to pedestrians or cars. Have a look at your controllers. You can see them and an estimated shape of your hands can be seen around your controllers. We added descriptions of the functionality of each button so you don't have to keep their function in mind. However, we expect any annotator to remember them after a short period of labeling time.
+You can start the tool by hitting `Play` in Unity Editor. When you place your Oculus VR over your head, you can see the first point cloud of the sequence around you and might be able to recognize shapes that belong to pedestrians or cars. Make sure to lighten the glasses, otherwise you cannot read the texts and don't see points clearly. Have a look at your controllers. You can also see an estimated shape of your hands around your controllers. We added descriptions of the functionality of each button so you don't have to keep their function in mind. However, we expect any annotator to remember them after a short period of labeling time.
 
 ![](figures/screenshot3_.png)
 
-We separated the functionality of the Oculus Touch Controllers in a way we hope is intuitive and well structured. The left controller has functions related to understanding the scene. You can scroll through the sequence, turn the scene or fix the dummy box in your hand. With the right controller, you enforce the actual labeling tasks. You can set tracks and boxes, choose a track you would like to modify and work yourself through dialogs defining meta information about the traffic participant. Tracks are used to give the user information about the vehicle that is being labeled. 
+We separated the functionality of the Oculus Touch Controllers in a way we hope is intuitive and well structured. The left controller has functions related to understanding the scene. You can scroll through the sequence, turn the scene or fix the dummy box between your controllers. With the right controller, you enforce the actual labeling tasks. You can set tracks and boxes, choose a track you would like to modify and work yourself through dialogs defining meta information about the traffic participant. Tracks are used to give the user information about the vehicle that is being labeled. 
 
-With the **left hand trigger**, which you can reach with your middle finger, the point cloud can be grabbed, turned and shifted. Try to familiarize with the scene and turn the point cloud in a way so you can clearly see a traffic participant in front of you. Now press and hold `Y` on your left controller. Four images taken in the current scene appear. Make yourself familiar with the scene. Would you understand the traffic rules that apply in the current scene? If not, diving through the sequence may help you in order to do so. Push the **left thumbstick** to the right in order to switch between the point clouds. To go back to the first scene, push it to the left. Each use of the **left thumbstick** increases or decreases the current sequence index by exactly 1, so it might take a while to have a look at the whole sequence.
+With the **left hand trigger**, which you can reach with your left middle finger, the point cloud can be "grabbed". If you "hold it in your hand", you can turn and shift it as long as the **left hand trigger** is pressed. Usually you need to press and release it several times in order to find a good position. The speed of translational motion can be modified with the variable `speed_mltplr` that was explained above. Try to familiarize with the scene and turn the point cloud in a way so you can clearly see a traffic participant in front of you. Now press and hold `Y` on your left controller. Up to four images taken in the current scene appear. Make yourself familiar with the scene. Would you understand the traffic rules that apply in the current scene? If not, diving through the sequence may help you in order to do so. Push the **left thumbstick** to the right in order to switch between the point clouds. To go back to the previous scene, push it to the left. Each use of the **left thumbstick** increases or decreases the current sequence index by exactly 1, so it might take a while to have a look at the whole sequence. Alternatively you can push the **left thumbstick** away from you in order to go forward `large_jump`s scenes or pull it towards you to go backwards. 
 
-Now that you understand the traffic scene, press `B` on the right controller in order to create a new track. The New Track Dialog pops up. Choose the options that apply to the traffic participant that you would like to annotate by pushing the **right thumbstick** up or down. If the desired answer is selected, pull the **right index trigger** with your index finger. After answering all questions you can start annotating the first track. The counter in the upper left shows how many tracks you have already created and which track you are currently working on. Place both of your controllers in a way so that the reshapeable box completely surrounds every point that belongs to the object. The red spheres define two diametrical corners of the box. The coordinate axes that stick to the red sphere on the right controller define the orientation of the box. Your left hand therefore only influences the size and the position of the middle of the box but not its orientation. If you want to fix the roll and the pitch angle of the box, press the **left index trigger**. As soon as the box is in the desired position, press `A` on your right controller in order to set the box. Turn the scene to check whether all points are within the box. You can modify a cuboid as long as it is red. If you are not satisfied with its position, place another box at a random position in space to receive a good view of the points on the surface of the object again. Now you can place a box that fits to the object better than the first one.
+Now that you understand the traffic scene, press `B` on the right controller in order to create a new track. The New Track Dialog pops up. Choose the options that apply to the traffic participant that you would like to annotate by pushing the **right thumbstick** up or down. If the desired answer is selected, pull the **right index trigger** with your index finger. After answering all questions you can start annotating the first track. The counter in the upper left shows how many tracks you have already created and which track you are currently working on. 
+
+Place both of your controllers in a way so that the reshapeable dummy box between them completely surrounds every point that belongs to the object. The red spheres define two diametrical corners of the box. The coordinate axes that stick to the red sphere on the right controller define the orientation of the box. Your left hand therefore only influences the size and the position of the middle of the box but not the box' orientation. By default, only the yaw angle is released and can be modified. If you additionally want to release roll and pitch angle, press the **left index trigger**. As soon as the box is in the desired position, press `A` on your right controller in order to set the box. Turn the scene to check whether all points are within the box. You can modify a cuboid as long as it is red. If you are not satisfied with its position, place another box at a random position in space to receive a good view onto the points belonging to the object again. Now you can place a box that fits to the object better than the first one. The red box of the currently chosen object is opaque, while the non selected boxes are partly transparent. You should also have a look at the transparent look in order to assess the box' quality.  
 
 ![](figures/screenshot2_.png)
 
-Let's have a closer look at the reshapeable dummy box, how it is visualized and how the two red spheres around it define the box. The walls of the box are tinted dark but is still transparent, so you can clearly see whether a point that belongs to an object unintentionally leaves the box. Also have a look at the symmetry of the points of the object. In some cases the human annotator has to guess the scale of the object and it is recommended to do so by assuming a symmetric shape with respect to the longitudinal vehicle axis. Now go through the whole sequence and look for the object you are currently labeling. Annotate it, until it does not occur in the point cloud any more. The detections do not have to be in every single frame and not even in a closed sequence. If a vehicle disappears behind a truck for example, skip a few frames and keep annotating the object when it appears again. Set a box by pressing `A` on the right controller. After any annotation, you are asked for the quality of the box. 
+Let's have a closer look at the reshapeable dummy box, how it is visualized and how the two red spheres around it define the box. The walls of the box are tinted dark but are still transparent, so you can clearly see whether a point that belongs to an object unintentionally leaves the box towards you. Also, have a look at the symmetry of the points of the object. In some cases the human annotator has to guess the scale of the object and it is recommended to do so by assuming a symmetric shape with respect to the longitudinal vehicle axis. Now go through the whole sequence and look for the object you are currently labeling. Annotate it, until it does not occur in the point cloud any more. The detections do not have to be in every single frame and not even in a closed sequence. If a vehicle disappears behind a truck for example, skip a few frames and keep annotating the object when it appears again. Set a box by pressing `A` on the right controller. After each annotation, you are asked for the quality of the box. 
 
-If you are satisfied with your track, press `B` again and continue with the next track. You can switch between existing tracks by pushing the **right thumbstick** to the left or to the right. The number of the current track will change accordingly. Labels are saved each time you change the point cloud. If you return to a point cloud where you already annotated objects, these objects will be recreated. If you are satisfied with the labels of the whole sequence, just hit the Play button again or stop the running program if you ran the tool by building it. The labels are saved within the **Labels** folder that is found within the **Assets** folder.
+If you are satisfied with your track, press `B` again and continue with the next track. You can switch between existing tracks by pushing the **right thumbstick** to the left or to the right. The number of the current track in the upper left corner will change accordingly. Labels are saved each time you change the point cloud. If you return to a point cloud where you already annotated objects, these objects will be recreated. If you want to pause the labeling process, just stop the program. As long as you do not touch the `Labels` folder you can restart the programm and continue labeling where you paused. 
 
-
-## Keys and their Function
+## Keys and Their Function
 
 | key | function | 
 |-------:|:-------| 
 | **left thumbstick** | Push to switch between scenes (left/right: small jump, up/down: large jump) |
 | **left hand trigger** | Pull to grab pointcloud. When grabbed, point cloud will follow the movement of your hand  |
-| **left index trigger** | only allow 1D rotation around Y axis / reset pointcloud rotation |
-| **X** | change the scale of the image |
+| **left index trigger** | Release/Lock two additional rotational degrees of freedom |
+| **X** | change the scale of the scene |
 | **Y** | show camera images |
-| **right thumbstick** | switch between set boxes |
+| **right thumbstick left/right** | switch between tracks |
+| **right thumbstick up/down** | choose answer in dialogs |
 | **right index trigger** | accept dialog |
 | **A** | set a new box within the current scene |
 | **B** | create a new track |
@@ -82,7 +88,7 @@ If you are satisfied with your track, press `B` again and continue with the next
 
 ## Citation
 
-If you are using PointAtMe for scientific research, we would be pleased if you cite our publication:
+If you are using PointAtMe for for research, we would be pleased if you cite our publication:
 ```latex
 @inproceedings{,
   title     = {PointAtMe: Efficient 3D Point Cloud Labeling in Virtual Reality},
@@ -90,8 +96,7 @@ If you are using PointAtMe for scientific research, we would be pleased if you c
   booktitle = {Proc.\ IEEE Intelligent Vehicles Symposium},
   year      = {2019},
   address   = {Paris, France},
-  owner     = {florianwirth},
-  month     = {June},
+  month     = {June}
 }
 ```
 
@@ -99,6 +104,8 @@ If you are using PointAtMe for scientific research, we would be pleased if you c
 ## Contributors
 
 Florian Wirth
+
+##### Student Assistants:
 
 Maqsood Rajput
 
