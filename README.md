@@ -6,6 +6,10 @@
 
 With this 3D Label Tool the user utilizes Oculus VR in order to annotate in 3D point clouds. Originally, the tool was developed for labeling traffic participants, but if could be used for any kind of object. Meta information about traffic participants can be added in-game.
 
+## Funding
+
+We would like to thank Intel Corporation for supporting our work. 
+
 ## Installation
 
 1.  Ensure that you have an Oculus Rift device and two Oculus Touch Controllers at your disposal. [Create an account](https://secure.oculus.com/sign-up/) in Oculus and download the Oculus driver [here](https://www.oculus.com/setup/). Make sure to download the program applicable to your Oculus device.
@@ -112,3 +116,7 @@ Maqsood Rajput
 Konstantin Tsenkov
 
 Justin Knipper
+
+## Acknowledgement
+
+Our tool was inspired by the work and code of [Gerard Llorach](https://gerardllorach.weebly.com/) which was funded by the [IMPART project](https://impart.upf.edu/) under the ICT - 7th Framework Program (FP7) from the European Comission. His work was published within the Unity Asset Store ([Point Cloud Free Viewer](https://assetstore.unity.com/packages/tools/utilities/point-cloud-free-viewer-19811)) .
