@@ -4,7 +4,7 @@
 
 ## Overview
 
-With this 3D Label Tool the user utilizes Oculus VR in order to annotate in 3D point clouds. Originally, the tool was developed for labeling traffic participants, but if could be used for any kind of object. Meta information about traffic participants can be added in-game.
+With this 3D Label Tool the user utilizes Oculus VR in order to annotate in 3D point clouds. Originally, the tool was developed for labeling traffic participants, but it can be used for any kind of object. Meta information about traffic participants can be added in-game.
 
 ## Funding
 
