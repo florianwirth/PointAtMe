@@ -105,9 +105,10 @@ If you are using PointAtMe for for research, we would be pleased if you cite our
 ```
 
 
-## Contributors
+## Contributors / Contact
 
 Florian Wirth
+`florian.wirth@kit.edu`
 
 ##### Student Assistants:
 
