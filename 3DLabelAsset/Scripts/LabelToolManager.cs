@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class LabelToolManager : MonoBehaviour
 {
-    // path to data
+    // path to pcd data
     //static string path: it needs to lead to the folder of the unity project (i.e. the folder "Assets" is within this folder)
 
     static string path = "C:/Users/wirth/Documents/VR_devel/VR_test_aktuell/"; 
