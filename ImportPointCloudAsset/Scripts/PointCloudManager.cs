@@ -51,7 +51,7 @@ public class PointCloudManager : MonoBehaviour
     // Current PointCloud name
     public static string currentPCName = "UNKNOWN";
 
-    public float sensorHeight = 2.1f;
+    public float sensorHeight = 2.4f;
     // height of point cloud which is of our interest
     public float upperHeight = 2.6f;
 
@@ -98,8 +98,8 @@ public class PointCloudManager : MonoBehaviour
         {
             CountLabelsOnStart();
             readObjectsFromText(pathToFile);
-            if(LabelToolManager.currentTrackID != -1 )
-            Debug.Log("number of Tracks on reloading: " + (LabelToolManager.currentTrackID + 1 ));
+            if (LabelToolManager.currentTrackID != -1)
+                Debug.Log("number of Tracks on reloading: " + (LabelToolManager.currentTrackID + 1));
         }
     }
 
@@ -131,7 +131,7 @@ public class PointCloudManager : MonoBehaviour
         }
         else
         { // Load stored PointCloud
-            loadStoredMeshes(fileName); 
+            loadStoredMeshes(fileName);
         }
     }
 
@@ -145,7 +145,7 @@ public class PointCloudManager : MonoBehaviour
             currentPCName = fileName;
         }
         else
-        Debug.Log("File '" + LabelToolManager.PathToData + "/pcd/" + fileName + ".pcd" + "' could not be found");
+            Debug.Log("File '" + LabelToolManager.PathToData + "/pcd/" + fileName + ".pcd" + "' could not be found");
     }
 
     // Load stored PointCloud
@@ -153,13 +153,13 @@ public class PointCloudManager : MonoBehaviour
     {
         currentPCName = fileName;
         // instantiates as loacl variable PCL
-        GameObject PCL = Instantiate(Resources.Load("PointCloudMeshes/" + fileName +"/"+ fileName)) as GameObject;
-        
+        GameObject PCL = Instantiate(Resources.Load("PointCloudMeshes/" + fileName + "/" + fileName)) as GameObject;
+
         PCL.transform.parent = PointCloud.transform;
         PCL.transform.localScale = PointCloud.transform.localScale;
 
         // assign pointGroup variable in Hierarchy 
-        for(int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++)
         {
             try
             {
@@ -167,17 +167,17 @@ public class PointCloudManager : MonoBehaviour
                 pointGroup[i].transform.position = SceneObject.transform.position;
                 pointGroup[i].transform.rotation = SceneObject.transform.rotation;
             }
-            catch(NullReferenceException e)
+            catch (NullReferenceException e)
             {
                 Debug.Log("Maybe not all PointGroups were loaded correctly.");
             }
-        
+
         }
-        
+
         //pointGroup[1] = GameObject.Find("PointCloud" + "/" + fileName + "(clone)" + "/" + filename + "_pg1");
         //pointgroup[2] = gameobject.find("pointcloud" + "/" + filename + "(clone)" + "/" + filename + "_pg2");
 
-        
+
 
         //pointgroup[1].transform.position = sceneobject.transform.position;
         //pointgroup[1].transform.rotation = sceneobject.transform.rotation;
@@ -256,10 +256,10 @@ public class PointCloudManager : MonoBehaviour
         InstantiateMesh(numPointGroups - 1, numPoints - (numPointGroups - 1) * limitPoints, fileName);
 
         //Store PointCloud as prefab
-        UnityEditor.PrefabUtility.CreatePrefab("Assets/Resources/PointCloudMeshes" + "/" + fileName + "/"+ fileName +  ".prefab", PointCloud);
+        UnityEditor.PrefabUtility.CreatePrefab("Assets/Resources/PointCloudMeshes" + "/" + fileName + "/" + fileName + ".prefab", PointCloud);
 
         loaded = true;
-       
+
     }
 
     // Instantiate Mesh and assiagn to Point Groups
@@ -270,7 +270,7 @@ public class PointCloudManager : MonoBehaviour
         pointGroup[groupId].AddComponent<MeshRenderer>();
         pointGroup[groupId].GetComponent<Renderer>().material = matVertex;
 
-        pointGroup[groupId].GetComponent<MeshFilter>().mesh = CreateMesh(meshInd, nPoints, limitPoints); 
+        pointGroup[groupId].GetComponent<MeshFilter>().mesh = CreateMesh(meshInd, nPoints, limitPoints);
         pointGroup[groupId].transform.parent = PointCloud.transform;
         Destroy(GetComponent<BoxCollider>());
 
@@ -369,24 +369,22 @@ public class PointCloudManager : MonoBehaviour
         // Solid red. RGBA is   (1, 0, 0, 1).
         // Yellow.RGBA is (1, 0.92, 0.016, 1)
         // Solid blue. RGBA is (0, 0, 1, 1).
-        
+
         if (pheight <= -System.Math.Abs(sheight))
             return new Color(1, 0, 0.3f, 1.0f);
         else if (pheight >= uheight)
             return new Color(0, 0, 1, 1);
         else
-            return new Color(1.0f - (float)System.Math.Log(2.0f + pheight / 2.0f), (float)System.Math.Log( 2.0f - pheight), 0.3f, 1.0f);
+            return new Color(1.0f - (float)System.Math.Log(2.0f + pheight / 2.0f), (float)System.Math.Log(2.0f - pheight), 0.3f, 1.0f);
     }
 
     /*public Color intensityToColor(float feature)
     {
-
         //return new Color(
         //    System.Math.Max(System.Math.Min(2.0f - feature / 75.0f, 1.0f), 0.0f),
         //    System.Math.Max(System.Math.Min(feature / 75.0f, 1.0f), 0.0f),
         //    0.0f,
         //    1.0f);
-
        return new Color(
             System.Math.Max(System.Math.Min(-0.2f - feature / 2.0f, 1.0f), 0.0f),
             System.Math.Max(System.Math.Min(1.5f + feature / 2.0f, 1.0f), 0.0f),
@@ -497,12 +495,12 @@ public class PointCloudManager : MonoBehaviour
     {
         foreach (TrackInformation tInfo in LabelToolManager.trackInformationList)
         {
-            Debug.Log("SAVED TRACK INFO: ID: = " + tInfo.getID() + 
+            Debug.Log("SAVED TRACK INFO: ID: = " + tInfo.getID() +
                 ", Class: " + tInfo.getChoice()[0] +
-                ", Quality: " + tInfo.getChoice()[5] + 
-                ", Priority: " + tInfo.getChoice()[1] + 
-                ", Direction: " + tInfo.getChoice()[2] + 
-                ", Moves: " + tInfo.getChoice()[3] + 
+                ", Quality: " + tInfo.getChoice()[5] +
+                ", Priority: " + tInfo.getChoice()[1] +
+                ", Direction: " + tInfo.getChoice()[2] +
+                ", Moves: " + tInfo.getChoice()[3] +
                 ", Lane: " + tInfo.getChoice()[4]);
         }
 
@@ -845,7 +843,7 @@ public class PointCloudManager : MonoBehaviour
         }
     }
 }
- 
+
 public class LoadedLabeledObject
 {
     public int loadedReadObjID;

@@ -36,7 +36,7 @@ public class SetBoxes : MonoBehaviour
         NewTrackDialogs.SetActive(false);
         SceneObject = GameObject.Find("SceneObject");
         if (trackColorList.Count() < LabelToolManager.currentTrackID + 1)
-            trackColorList.Add(genrateColor());
+            trackColorList.Add(generateColor());
     }
 
     // Update is called once per frame
@@ -48,7 +48,7 @@ public class SetBoxes : MonoBehaviour
         {
             B_pressed = true;
             //Add a new color to the list of colors for bounding boxes
-            trackColorList.Add(genrateColor());
+            trackColorList.Add(generateColor());
             //assigns a unique color to each track
             if (labeledObjectList.Count > 0)
             {
@@ -206,7 +206,7 @@ public class SetBoxes : MonoBehaviour
     }
 
     //Generates a random color for bounding box
-    public static Color genrateColor()
+    public static Color generateColor()
     {
         Color c = new Color((float)Random.Range(0.2f, 0.9f), (float)Random.Range(0.2f, 0.9f), (float)Random.Range(0.2f, 0.9f), 0.6f);
         Debug.Log("Color: " + c.a);
@@ -247,22 +247,32 @@ public class SetBoxes : MonoBehaviour
         newBoundingBox.transform.rotation = SceneObject.transform.rotation * new Quaternion(objRotX, objRotY, objRotZ, objRotW);
         newBoundingBox.transform.localScale = new Vector3(objLocalScaleX, objLocalScaleY, objLocalScaleZ);
 
+        meshrenderer = newBoundingBox.GetComponent<MeshRenderer>();
+        meshrenderer.material.color = Color.red;
+        meshrenderer.material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
+        meshrenderer.material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+        meshrenderer.material.SetInt("_ZWrite", 0);
+        meshrenderer.material.DisableKeyword("_ALPHATEST_ON");
+        meshrenderer.material.DisableKeyword("_ALPHABLEND_ON");
+        meshrenderer.material.EnableKeyword("_ALPHAPREMULTIPLY_ON");
+        meshrenderer.material.renderQueue = 3000;
+
         if (objColorRed == true)
         {
-            meshrenderer = newBoundingBox.GetComponent<MeshRenderer>();
             meshrenderer.material.color = Color.red;
         }
         else if (objColorRed == false)
         {
-            meshrenderer = newBoundingBox.GetComponent<MeshRenderer>();
             //assigns a unique color to each bounding box and stores in trackColorList
             if (trackColorList.Count() != 0 && objID < trackColorList.Count() )
             {
+                Debug.LogError("generate color from track color list " + trackColorList[objID].a);
                 meshrenderer.material.color = trackColorList[objID];   
             }
             else
             {
-                meshrenderer.material.color = genrateColor();
+                Debug.LogError("generate color");
+                meshrenderer.material.color = generateColor();
                 trackColorList.Add(meshrenderer.material.color);
             }
             Debug.Log("Track " + objID + " with color " + meshrenderer.material.color);
