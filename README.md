@@ -4,7 +4,11 @@
 
 ## Overview
 
-With this 3D Label Tool the user utilizes Oculus VR in order to annotate in 3D point clouds. Originally, the tool was developed for labeling traffic participants, but it can be used for any kind of object. Meta information about traffic participants can be added in-game.
+With this 3D Label Tool the user utilizes Oculus VR in order to annotate in 3D point clouds. Originally, the tool was developed for labeling traffic participants, but it can be used for any kind of object. Meta information about traffic participants can be added in-game. 
+
+**Input**: The tool requires ASCII .pcd point cloud files as defined by the [Point Cloud Library](http://pointclouds.org/documentation/tutorials/pcd_file_format.php). You can work sequence based through the point clouds.
+
+**Output**: .txt files with a list of objects per point cloud. You get track, meta information, position (xyz), orientation (as a Quaternion xyzw) and the last three digits define the scale (xyz) of the bounding box relative to the sensor's origin (the origin of the point cloud file, respectively).   
 
 ## Funding
 
@@ -14,7 +18,7 @@ We would like to thank Intel Corporation for supporting our work.
 
 1.  Ensure that you have an Oculus Rift device and two Oculus Touch Controllers at your disposal. [Create an account](https://secure.oculus.com/sign-up/) in Oculus and download the Oculus driver [here](https://www.oculus.com/setup/). Make sure to download the program applicable to your Oculus device.
 
-2.  [Create an account in Unity](https://unity3d.com/de/unity/editor) and download the Unity Editor. We recommend using the version Unity 2017.4.8 (this and other versions can be found [here](https://unity3d.com/get-unity/download/archive)) as this was the version used to develop this tool.
+2.  [Create an account in Unity](https://unity3d.com/de/unity/editor) and download the Unity Editor. We recommend using the version Unity 2018.2.17 (this and other versions can be found [here](https://unity3d.com/get-unity/download/archive)) as this was the version used to develop this tool. We assume that the tool also works with later versions.
 
 3.  Download the files from this repository.
 
@@ -25,15 +29,15 @@ We would like to thank Intel Corporation for supporting our work.
 
 1.  Open **Unity Editor** and create a new project. Make sure to use the 3D Template. Give this project a custom name and save it in the desired location. Make sure to remember this location.
 
-2.  Once **Unity Editor** has opened the project you can see a basic unity scene. You should see the tabs **Scene**, **Game** and **Asset Store** just above the basic unity scene. Below and to the left of this scene you should be able to see the tabs **Project** and **Console**. These will be important at a later stage.
+2.  Once **Unity Editor** has opened the project, you can see a basic unity scene. You should see the tabs **Scene**, **Game** and **Asset Store** just above the basic unity scene. Below and to the left of this scene you should be able to see the tabs **Project** and **Console**. These will be important at a later stage.
 
-3.  Minimize **Unity Editor** and go to the folder where your new unity project is stored. Copy the folders **3DLabelAsset**, **ImportPointCloudAsset** and the file **scene_1.unity** stored in the present repository to the folder **Assets** of your unity project.
+3.  Minimize **Unity Editor** and go to the folder where your new unity project is stored. Copy the folders **3DLabelAsset**, **ImportPointCloudAsset** and the file **scene_1.unity** stored in this repository to the folder **Assets** of your unity project.
 
 4.  Add another folder named **RecordedData** to the **Assets** folder (it’s technically not an asset, it’s just a folder where the recorded data is stored) or download the folder **RecordedData_KITTI** if you want to use our tool plug and play. In the folder **RecordedData** create five further folders named **pcd**, **front**, **rear**, **left** and **right**. Copy the point clouds you would like to use in this tool to the **pcd** folder. Make sure to **only use .pcd files in ASCII format** (There are functions for [matlab (pcread, pcwrite)](https://www.mathworks.com/help/vision/ref/pcwrite.html) or [python (pcl.PointCloud.from_file, .to_file)](http://strawlab.github.io/python-pcl/#pcl.PointCloud)). The remaining folders contain images of the corresponding cameras. Those images are supposed to show the same scene as the .pcd does. They're supposed to help the annotator to find his/her way around the point cloud. **Only use .png files** in these folders. 
 
 5.  Maximize **Unity Editor** again and go to the **Project** tab that you have seen in step 2. Wait a couple of seconds, **Unity Editor** initializes the new folder content and creates .meta files. In the folder **Assets** you should now be able to see `scene_1`. Double click to open this scene in unity. 
 
-6.  You have to change the variable **path**. This can be found in the **Assets** folder of the **Project** tab of **Unity Editor** . To change the variable, you have to click on the folder **3DLabelAsset** -> **Scripts**. Once there, open the script `LabelToolManager`. You must change the variable `path`  (this should be within the first couple lines of code) to match the file location of your unity project. Make sure to end the file location with a `/`  
+6.  You have to change the variable **path**. This can be found in the **Assets** folder of the **Project** tab of **Unity Editor** . To change the variable, you have to click on the folder **3DLabelAsset** -> **Scripts**. Once there, open the script `LabelToolManager`. You must change the variable `path`  (this should be within the first couple lines of code) to match the file location of your unity project. Make sure to end the file location with a `/`.  
 
 7.  Finally, to import the asset **Oculus Integration**, go to the menu bar and click on **Assets** -> **Import Package** -> **Custom Package**. Go to the folder where you downloaded the Oculus Integration asset (step 4 of the installation process) and select **OculusUtilities.unitypackage** in the folder **OculusUtilities**. Import all parts of the asset.
 
@@ -49,7 +53,7 @@ We would like to thank Intel Corporation for supporting our work.
     
 ## Safety Instruction
 
-In our tool, we did not include a floor or horizon with which an annotator could oneself. That's why turning the point cloud with 6 DOF might yield to motion sickness or loosing orientation. We therefore recommend to sit down during annotation. Noone can assure your safety if you label while standing. Furthermore, we advise you to make a break every now and then to prevent motion sickness or headache.
+In our tool, we did not include a floor or horizon with which an annotator could orient oneself. That's why turning the point cloud with 6 DOF might yield to motion sickness or loosing orientation. We therefore recommend to sit down during annotation, heading towards the two sensors. Noone can assure your safety if you label while standing. Furthermore, we advise you to make a break every now and then to prevent motion sickness or headache.
 
 
 ## Using the Label Tool
@@ -76,13 +80,14 @@ If you are satisfied with your track, press `B` again and continue with the next
 
 | key | function | 
 |-------:|:-------| 
-| **left thumbstick** | Push to switch between scenes (left/right: small jump, up/down: large jump) |
-| **left hand trigger** | Pull to grab pointcloud. When grabbed, point cloud will follow the movement of your hand  |
+| **left thumbstick** | push to switch between scenes (left/right: small jump, up/down: large jump) |
+| **left hand trigger** | pull to grab pointcloud. When grabbed, point cloud will follow the movement of your hand  |
 | **left index trigger** | Release/Lock two additional rotational degrees of freedom |
 | **X** | change the scale of the scene |
 | **Y** | show camera images |
 | **right thumbstick left/right** | switch between tracks |
 | **right thumbstick up/down** | choose answer in dialogs |
+| **right hand trigger** | pull and grab current box |
 | **right index trigger** | accept dialog |
 | **A** | set a new box within the current scene |
 | **B** | create a new track |
@@ -104,8 +109,12 @@ If you are using PointAtMe for for research, we would be pleased if you cite our
 }
 ```
 
+Despite we mentioned that our tool will be uploaded to the asset store to make installation handier, so far, we didn't. This is due to the growing amount of settings that can be personalized to your needs. It's easier to set them up directly with a keyboard in the code than instroducing more VR user interfaces. 
+
 
 ## Contributors / Contact
+
+Feel free to contact me, if you like to use our tool:
 
 Florian Wirth
 `florian.wirth@kit.edu`
@@ -117,6 +126,8 @@ Maqsood Rajput
 Konstantin Tsenkov
 
 Justin Knipper
+
+Jingjang Wei
 
 ## Acknowledgement
 
