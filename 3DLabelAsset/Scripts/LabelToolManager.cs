@@ -42,7 +42,7 @@ public class LabelToolManager : MonoBehaviour
     // is right index trigger pressed?
     bool right_index_trigger_pressed = false;
     // is left thumbstick pressed?
-    bool left_thumbstick_pressed = false;
+    bool left_thumbstick_in_use = false;
     // is the track choice done?
     public static bool trackChoiceDone = false;
     // Was X just pressed?
@@ -181,30 +181,53 @@ public class LabelToolManager : MonoBehaviour
         {
             right_index_trigger_pressed = false;
         }
-        if ((OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick)[0] > LabelToolManager.threshold) && !left_thumbstick_pressed && !LabelToolManager.DialogOpen)
+
+        // small jump
+        if ((OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick)[0] > LabelToolManager.threshold) && !left_thumbstick_in_use && !LabelToolManager.DialogOpen)
         {
-            if (SequenceIdx < fileNamesPCD.Length - RecordingFrequencyRatio)
+            if (SequenceIdx + small_jump < fileNamesPCD.Length)
             {
-                SequenceIdx++;
+                SequenceIdx += small_jump;
                 // Adjust camera rate to fit the pcd data
                 ImageManager.loadImages_(fileNamesImg[SequenceIdx * RecordingFrequencyRatio]);
                 
             }
-            left_thumbstick_pressed = true;
+            left_thumbstick_in_use = true;
         }       
-        else if ((OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick)[0] < -LabelToolManager.threshold) && !left_thumbstick_pressed && !LabelToolManager.DialogOpen) 
+        else if ((OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick)[0] < -LabelToolManager.threshold) && !left_thumbstick_in_use && !LabelToolManager.DialogOpen) 
         {
-            if (SequenceIdx > 0)
+            if (SequenceIdx - small_jump >= 0)
             {
-                SequenceIdx--;
+                SequenceIdx -= small_jump;
                 // Adjust camera rate to fit the pcd data
                 ImageManager.loadImages_(fileNamesImg[SequenceIdx * RecordingFrequencyRatio]);
             }
-            left_thumbstick_pressed = true;
-        }
-        else if (OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick)[0] < LabelToolManager.threshold && left_thumbstick_pressed && !LabelToolManager.DialogOpen)
+            left_thumbstick_in_use = true;
+        }// large jump
+        else if ((OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick)[1] > LabelToolManager.threshold) && !left_thumbstick_in_use && !LabelToolManager.DialogOpen)
         {
-            left_thumbstick_pressed = false;
+            if (SequenceIdx + large_jump < fileNamesPCD.Length)
+            {
+                SequenceIdx += large_jump;
+                // Adjust camera rate to fit the pcd data
+                ImageManager.loadImages_(fileNamesImg[SequenceIdx * RecordingFrequencyRatio]);
+
+            }
+            left_thumbstick_in_use = true;
+        }
+        else if ((OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick)[1] < -LabelToolManager.threshold) && !left_thumbstick_in_use && !LabelToolManager.DialogOpen)
+        {
+            if (SequenceIdx - large_jump >= 0)
+            {
+                SequenceIdx -= large_jump;
+                // Adjust camera rate to fit the pcd data
+                ImageManager.loadImages_(fileNamesImg[SequenceIdx * RecordingFrequencyRatio]);
+            }
+            left_thumbstick_in_use = true;
+        }
+        else if (OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick).magnitude < LabelToolManager.threshold && left_thumbstick_in_use && !LabelToolManager.DialogOpen)
+        {
+            left_thumbstick_in_use = false;
         }
 
         if (OVRInput.Get(OVRInput.RawButton.X) && !X_pressed)
