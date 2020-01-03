@@ -370,7 +370,7 @@ public class PointCloudManager : MonoBehaviour
         // Yellow.RGBA is (1, 0.92, 0.016, 1)
         // Solid blue. RGBA is (0, 0, 1, 1).
 
-        if (pheight <= -System.Math.Abs(sheight))
+        if (pheight <= -Math.Abs(sheight))
             return new Color(1, 0, 0.3f, 1.0f);
         else if (pheight >= uheight)
             return new Color(0, 0, 1, 1);
@@ -453,9 +453,9 @@ public class PointCloudManager : MonoBehaviour
                         tempRot.y + " " +
                         tempRot.z + " " +
                         tempLabeledObj.transform.rotation.w + " " +
-                        tempLabeledObj.transform.localScale.x + " " +
-                        tempLabeledObj.transform.localScale.y + " " +
-                        tempLabeledObj.transform.localScale.z);
+                        Math.Abs(tempLabeledObj.transform.localScale.x) + " " +
+                        Math.Abs(tempLabeledObj.transform.localScale.y) + " " +
+                        Math.Abs(tempLabeledObj.transform.localScale.z));
 
                     Debug.Log("RESULTS: " +
                         tempObjID + " " +
@@ -476,9 +476,9 @@ public class PointCloudManager : MonoBehaviour
                         tempLabeledObj.transform.rotation.y + " " +
                         tempLabeledObj.transform.rotation.z + " " +
                         tempLabeledObj.transform.rotation.w + " " +
-                        tempLabeledObj.transform.localScale.x + " " +
-                        tempLabeledObj.transform.localScale.y + " " +
-                        tempLabeledObj.transform.localScale.z + " true");
+                        Math.Abs(tempLabeledObj.transform.localScale.x) + " " +
+                        Math.Abs(tempLabeledObj.transform.localScale.y) + " " +
+                        Math.Abs(tempLabeledObj.transform.localScale.z) + " true");
                     Destroy(tempLabeledObj);
                 }
             }
