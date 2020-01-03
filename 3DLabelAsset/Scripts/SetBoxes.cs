@@ -27,9 +27,25 @@ public class SetBoxes : MonoBehaviour
     // creation of a new track initiated
     bool newTrackCreationInitiated = false;
 
+    // relative transformation
+    Matrix4x4 tf_rel;
+    // pose/ transformation of pointcloud
+    Matrix4x4 tf_pcd;
+    // unit vector to keep scale
+    Vector3 ones = new Vector3(1.0f, 1.0f, 1.0f);
+    // hand trigger position
+    bool hand_trigger_pushed = false;
+    // left controller orientation
+    Quaternion right_rot;
+    // left controller position
+    Vector3 right_pos;
+
+    GameObject thisObject;
+
     // Use this for initialization
     void Start()
     {
+        
         NewTrackDialogs = GameObject.Find("NewTrackDialogs");
         QualityDialog = GameObject.Find("QualityDialog");
         QualityDialog.SetActive(false);
@@ -43,6 +59,9 @@ public class SetBoxes : MonoBehaviour
     void Update()
     {
         OVRInput.Update();
+
+        right_rot = OVRInput.GetLocalControllerRotation(OVRInput.Controller.RTouch);
+        right_pos = OVRInput.GetLocalControllerPosition(OVRInput.Controller.RTouch);
 
         if (OVRInput.Get(OVRInput.RawButton.B) && !B_pressed && !LabelToolManager.DialogOpen)
         {
@@ -190,6 +209,46 @@ public class SetBoxes : MonoBehaviour
             A_pressed = false;
             QualityDialog.SetActive(false);
         }
+
+
+
+        if (OVRInput.Get(OVRInput.Axis1D.SecondaryHandTrigger) > LabelToolManager.threshold && !hand_trigger_pushed)
+        {
+            thisObject = labeledObjectList[LabelToolManager.currentTrackID].objectBoundingBox;
+            //Debug.Log("Grabbed pcd");
+            tf_rel = Matrix4x4.Inverse(
+                Matrix4x4.TRS(right_pos,
+                right_rot,
+                ones))
+                * Matrix4x4.TRS(thisObject.transform.position, thisObject.transform.rotation, ones);
+            hand_trigger_pushed = true;
+        }
+        else if (OVRInput.Get(OVRInput.Axis1D.SecondaryHandTrigger) > LabelToolManager.threshold && hand_trigger_pushed)
+        {
+            //tf_rel = Matrix4x4.Inverse(
+            //    Matrix4x4.TRS(right_pos,
+            //    right_rot,
+            //    ones))
+            //    * Matrix4x4.TRS(thisObject.transform.position, Quaternion.Euler(new Vector3(0.0f, thisObject.transform.rotation.eulerAngles[1], 0.0f)), ones);
+
+            tf_pcd = Matrix4x4.TRS(right_pos,
+                right_rot,
+                new Vector3(1.0f, 1.0f, 1.0f)) * tf_rel;
+
+            thisObject.transform.rotation = QuaternionFromMatrix(tf_pcd);
+            thisObject.transform.position = PositionFromMatrix(tf_pcd);
+        }
+        else if (OVRInput.Get(OVRInput.Axis1D.SecondaryHandTrigger) == 0.0f && hand_trigger_pushed)
+        {
+            //Debug.Log("Released pcd");
+            hand_trigger_pushed = false;
+        }
+
+        //if (OVRInput.Get(OVRInput.Axis1D.SecondaryHandTrigger) > LabelToolManager.threshold)
+        //{
+        //    labeledObjectList[LabelToolManager.currentTrackID].objectBoundingBox.transform.SetPositionAndRotation(right_pos, right_rot);
+        //}
+
     }
 
     IEnumerator Wait()
@@ -266,12 +325,10 @@ public class SetBoxes : MonoBehaviour
             //assigns a unique color to each bounding box and stores in trackColorList
             if (trackColorList.Count() != 0 && objID < trackColorList.Count() )
             {
-                Debug.LogError("generate color from track color list " + trackColorList[objID].a);
                 meshrenderer.material.color = trackColorList[objID];   
             }
             else
             {
-                Debug.LogError("generate color");
                 meshrenderer.material.color = generateColor();
                 trackColorList.Add(meshrenderer.material.color);
             }
@@ -293,6 +350,12 @@ public class SetBoxes : MonoBehaviour
 
         labeledObjectList.Add(labeledObj);
         Debug.Log("Created Placeholder with ID: " + labeledObj.objectID + "    Created red:" + objColorRed);
+    }
+
+    public static Quaternion QuaternionFromMatrix(Matrix4x4 m)
+    {
+        // Make quaternion from pose
+        return Quaternion.LookRotation(m.GetColumn(2), m.GetColumn(1));
     }
 
     static public Vector3 PositionFromMatrix(Matrix4x4 m)

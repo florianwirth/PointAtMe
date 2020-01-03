@@ -39,7 +39,7 @@ public class TurnPointcloud : MonoBehaviour
         left_rot = OVRInput.GetLocalControllerRotation(OVRInput.Controller.LTouch);
         left_pos = OVRInput.GetLocalControllerPosition(OVRInput.Controller.LTouch);
 
-        if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) > 0.2f)
+        if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) > LabelToolManager.threshold)
         {
             left_rot = Quaternion.Euler(new Vector3(0.0f, left_rot.eulerAngles[1], 0.0f));
             transform.rotation = Quaternion.Euler(new Vector3(0.0f, transform.rotation.eulerAngles[1], 0.0f));
@@ -51,7 +51,7 @@ public class TurnPointcloud : MonoBehaviour
             transform.localScale = new Vector3(1.0f, 1.0f, 1.0f) * LabelToolManager.scaleFactors[LabelToolManager.current_scale_idx];
         }
 
-        if (OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger) > 0.5f && !hand_trigger_pushed)
+        if (OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger) > LabelToolManager.threshold && !hand_trigger_pushed)
         {
             left_pos_init = left_pos;
             //Debug.Log("Grabbed pcd");
@@ -62,9 +62,9 @@ public class TurnPointcloud : MonoBehaviour
                 * Matrix4x4.TRS(transform.position, transform.rotation, ones);
             hand_trigger_pushed = true;
         }
-        else if (OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger) > 0.5f && hand_trigger_pushed)
+        else if (OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger) > LabelToolManager.threshold && hand_trigger_pushed)
         {
-            if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) > 0.2f && !index_trigger_pushed)
+            if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) > LabelToolManager.threshold && !index_trigger_pushed)
             {
                 tf_rel = Matrix4x4.Inverse(
                     Matrix4x4.TRS(left_pos,
@@ -73,7 +73,7 @@ public class TurnPointcloud : MonoBehaviour
                     * Matrix4x4.TRS(transform.position, Quaternion.Euler(new Vector3(0.0f, transform.rotation.eulerAngles[1], 0.0f)), ones);
                 index_trigger_pushed = true;
             }
-            else if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) < 0.2f && index_trigger_pushed)
+            else if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) < LabelToolManager.threshold && index_trigger_pushed)
             {
                 tf_rel = Matrix4x4.Inverse(
                     Matrix4x4.TRS(left_pos,
@@ -84,7 +84,7 @@ public class TurnPointcloud : MonoBehaviour
             }
             tf_pcd = Matrix4x4.TRS(left_pos,
                 left_rot,
-                new Vector3(1.0f, 1.0f, 1.0f)) * Matrix4x4.Translate((speed_mltplr - 1.0f) * (left_pos - left_pos_init)) * tf_rel;
+                new Vector3(1.0f, 1.0f, 1.0f)) * Matrix4x4.Translate((speed_mltplr) * (left_pos - left_pos_init)) * tf_rel;
 
             transform.rotation = QuaternionFromMatrix(tf_pcd);
             transform.position = PositionFromMatrix(tf_pcd);

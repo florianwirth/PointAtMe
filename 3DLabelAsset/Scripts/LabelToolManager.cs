@@ -140,7 +140,6 @@ public class LabelToolManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
         DialogOpen = NewTrackDialogs.activeSelf | QualityDialog.activeSelf;
         NewTrackDialogOpen = NewTrackDialogs.activeSelf & !QualityDialog.activeSelf;
         QualityDialogOpen = !NewTrackDialogs.activeSelf & QualityDialog.activeSelf;
