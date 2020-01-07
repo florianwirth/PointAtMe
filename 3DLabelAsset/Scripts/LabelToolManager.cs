@@ -6,7 +6,7 @@ public class LabelToolManager : MonoBehaviour
     // path to data
     //static string path: it needs to lead to the folder of the unity project (i.e. the folder "Assets" is within this folder)
 
-    static string path = "C:/Users/wirth/Documents/VR_devel/VR_test_aktuell/"; 
+    static string path = "C:/Users/wirth/Documents/VR_devel/oculus_label_tool/"; 
     //static string path = @"U:\VR_dev\VR_test_aktuell_BUGFIX/";
 
     // path to raw data
@@ -14,7 +14,7 @@ public class LabelToolManager : MonoBehaviour
     // path to labels
     public static string PathToLabels = path + "Assets/Labels";
     // path to pcd meshes
-    public static string PathToPCLMeshs = path + "Assets/Resources/PointCloudMeshes";
+    public static string PathToPCLMeshes = path + "Assets/Resources/PointCloudMeshes";
     // array of pcd files in pcd folder
     public static string[] fileNamesPCD;
     // array of images in image folders

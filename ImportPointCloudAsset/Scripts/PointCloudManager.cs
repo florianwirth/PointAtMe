@@ -116,7 +116,7 @@ public class PointCloudManager : MonoBehaviour
         pointGroup = new GameObject[3];
 
         // Check if the PointCloud was loaded previously
-        if (!System.IO.Directory.Exists(LabelToolManager.PathToPCLMeshs + "/" + fileName))
+        if (!Directory.Exists(LabelToolManager.PathToPCLMeshes + "/" + fileName))
         {
             UnityEditor.AssetDatabase.CreateFolder("Assets/Resources/PointCloudMeshes", fileName);
             loadPointCloud(fileName);
@@ -124,7 +124,7 @@ public class PointCloudManager : MonoBehaviour
         else if (forceReload)
         {
             Debug.Log("ForceReload");
-            UnityEditor.FileUtil.DeleteFileOrDirectory(LabelToolManager.PathToPCLMeshs + "/" + fileName);
+            UnityEditor.FileUtil.DeleteFileOrDirectory(LabelToolManager.PathToPCLMeshes + "/" + fileName);
             UnityEditor.AssetDatabase.Refresh();
             UnityEditor.AssetDatabase.CreateFolder("Assets/Resources/PointCloudMeshes", fileName);
             loadPointCloud(fileName);
@@ -344,8 +344,8 @@ public class PointCloudManager : MonoBehaviour
         if (!System.IO.Directory.Exists(Application.dataPath + "/Resources/"))
             UnityEditor.AssetDatabase.CreateFolder("Assets", "Resources");
 
-        if (!System.IO.Directory.Exists(LabelToolManager.PathToPCLMeshs))
-            Directory.CreateDirectory(LabelToolManager.PathToPCLMeshs);
+        if (!System.IO.Directory.Exists(LabelToolManager.PathToPCLMeshes))
+            Directory.CreateDirectory(LabelToolManager.PathToPCLMeshes);
         //UnityEditor.AssetDatabase.CreateFolder("Assets/Resources", "PointCloudMeshes");
     }
 
@@ -370,27 +370,27 @@ public class PointCloudManager : MonoBehaviour
         // Yellow.RGBA is (1, 0.92, 0.016, 1)
         // Solid blue. RGBA is (0, 0, 1, 1).
 
-        if (pheight <= -Math.Abs(sheight))
-            return new Color(1, 0, 0.3f, 1.0f);
-        else if (pheight >= uheight)
-            return new Color(0, 0, 1, 1);
-        else
-            return new Color(1.0f - (float)System.Math.Log(2.0f + pheight / 2.0f), (float)System.Math.Log(2.0f - pheight), 0.3f, 1.0f);
+        float color_norm = 3.0f * (pheight + sheight) / uheight;
+
+        float c;
+
+        switch ((int)Math.Floor(color_norm))
+        {
+            case 0:
+                c = color_norm % 1.0f;
+                return new Color(1.0f - c, c, 0.0f, 1.0f);
+            case 1:
+                c = color_norm % 1.0f;
+                return new Color(0.0f, 1.0f - c, c, 1.0f);
+            case 2:
+                c = color_norm % 1.0f;
+                return new Color(c, 0.0f, 1.0f - c, 1.0f);
+            default:
+                return new Color(1.0f, 0.0f, 0.0f, 1.0f);
+        }
     }
 
-    /*public Color intensityToColor(float feature)
-    {
-        //return new Color(
-        //    System.Math.Max(System.Math.Min(2.0f - feature / 75.0f, 1.0f), 0.0f),
-        //    System.Math.Max(System.Math.Min(feature / 75.0f, 1.0f), 0.0f),
-        //    0.0f,
-        //    1.0f);
-       return new Color(
-            System.Math.Max(System.Math.Min(-0.2f - feature / 2.0f, 1.0f), 0.0f),
-            System.Math.Max(System.Math.Min(1.5f + feature / 2.0f, 1.0f), 0.0f),
-            0.3f,
-            1.0f);
-    }*/
+
 
     // Save labeled objects from current scene to a text file
     public void saveSceneToText(string name)
