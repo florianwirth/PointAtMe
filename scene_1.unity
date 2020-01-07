@@ -3607,8 +3607,8 @@ MonoBehaviour:
   forceReload: 1
   numPoints: 0
   numPointGroups: 0
-  sensorHeight: 1.8
-  upperHeight: 2.8
+  sensorHeight: 1.7
+  upperHeight: 2.5
 --- !u!1 &611005624
 GameObject:
   m_ObjectHideFlags: 0
@@ -10626,7 +10626,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1888528102}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbffb15c1a8800844b4a14184e97e6be, type: 3}
+  m_Script: {fileID: 11500000, guid: 49d6e3883faa0ff4c8b53d555d3da9dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1888528105

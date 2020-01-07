@@ -51,10 +51,16 @@ public class PointCloudManager : MonoBehaviour
     // Current PointCloud name
     public static string currentPCName = "UNKNOWN";
 
+    // height of the sensor above the ground
     public float sensorHeight = 2.4f;
-    // height of point cloud which is of our interest
+    // height of point cloud which is of our interest measured above ground
     public float upperHeight = 2.6f;
-
+    // representation of points: "lines" or "points" (default)
+    string design = "lines";
+    // connect points up to a distance of ...
+    float connect_dist = 0.1f;
+    // ... for each ... of distance to sensor
+    float sensor_dist = 5.0f;
     void Start()
     {
         // Create Resources folder
@@ -287,22 +293,64 @@ public class PointCloudManager : MonoBehaviour
     {
         Mesh mesh = new Mesh();
 
-        Vector3[] myPoints = new Vector3[nPoints];
-        int[] indecies = new int[nPoints];
-        Color[] myColors = new Color[nPoints];
 
-        for (int i = 0; i < nPoints; ++i)
+
+        if(design == "lines")
         {
-            myPoints[i] = points[id * limitPoints + i] - minValue;
-            indecies[i] = i;
-            myColors[i] = colors[id * limitPoints + i];
-        }
+            // Lines
+            Vector3[] myPoints = new Vector3[nPoints];
+            List<Vector3> linePoints = new List<Vector3>(0);
+            int[] indeciesLine = new int[2 * (nPoints - 1)];
+            Color[] myLineColors = new Color[nPoints];
+            int num = 0;
+            for (int i = 0; i < nPoints; ++i)
+            {
+                myPoints[i] = points[id * limitPoints + i] - minValue;
 
-        mesh.vertices = myPoints;
-        mesh.colors = myColors;
-        mesh.SetIndices(indecies, MeshTopology.Points, 0);
-        mesh.uv = new Vector2[nPoints];
-        mesh.normals = new Vector3[nPoints];
+            }
+            bool flag = true;
+            for (int i = 0; i < nPoints - 1; i++)
+            {
+                float threshold = Vector3.Magnitude(myPoints[i]) / (sensor_dist * LabelToolManager.scaleFactors[LabelToolManager.current_scale_idx]) * connect_dist * LabelToolManager.scaleFactors[LabelToolManager.current_scale_idx];
+
+                if (Vector3.Distance(myPoints[i], myPoints[i + 1]) < threshold)
+                {
+
+                    indeciesLine[2 * i] = i;
+                    indeciesLine[2 * i + 1] = i + 1;
+                    myLineColors[i] = colors[id * limitPoints + i];
+                    num++;
+                }
+            }
+            Debug.Log("LINESNUM" + indeciesLine.Length);
+            mesh.vertices = myPoints;
+            mesh.colors = myLineColors;
+            mesh.SetIndices(indeciesLine, MeshTopology.Lines, 0);
+
+
+            mesh.uv = new Vector2[nPoints];
+            mesh.normals = new Vector3[nPoints];
+        }
+        else
+        {
+            // Points
+            Vector3[] myPoints = new Vector3[nPoints];
+            int[] indecies = new int[nPoints];
+            Color[] myColors = new Color[nPoints];
+
+            for (int i = 0; i < nPoints; ++i)
+            {
+                myPoints[i] = points[id * limitPoints + i] - minValue;
+                indecies[i] = i;
+                myColors[i] = colors[id * limitPoints + i];
+            }
+
+            mesh.vertices = myPoints;
+            mesh.colors = myColors;
+            mesh.SetIndices(indecies, MeshTopology.Points, 0);
+            mesh.uv = new Vector2[nPoints];
+            mesh.normals = new Vector3[nPoints];
+        } 
 
         return mesh;
     }
@@ -370,7 +418,7 @@ public class PointCloudManager : MonoBehaviour
         // Yellow.RGBA is (1, 0.92, 0.016, 1)
         // Solid blue. RGBA is (0, 0, 1, 1).
 
-        float color_norm = 3.0f * (pheight + sheight) / uheight;
+        float color_norm = 6.0f * (pheight + sheight) / uheight;
 
         float c;
 
@@ -378,13 +426,22 @@ public class PointCloudManager : MonoBehaviour
         {
             case 0:
                 c = color_norm % 1.0f;
-                return new Color(1.0f - c, c, 0.0f, 1.0f);
+                return new Color(1.0f, c, 0.0f, 1.0f);
             case 1:
                 c = color_norm % 1.0f;
-                return new Color(0.0f, 1.0f - c, c, 1.0f);
+                return new Color(1.0f - c, 1.0f, 0.0f, 1.0f);
             case 2:
                 c = color_norm % 1.0f;
-                return new Color(c, 0.0f, 1.0f - c, 1.0f);
+                return new Color(0.0f, 1.0f, c, 1.0f);
+            case 3:
+                c = color_norm % 1.0f;
+                return new Color(0.0f, 1.0f - c, 1.0f, 1.0f);
+            case 4:
+                c = color_norm % 1.0f;
+                return new Color(c, 0.0f, 1.0f, 1.0f);
+            case 5:
+                c = color_norm % 1.0f;
+                return new Color(1.0f, 0.0f, 1.0f - c, 1.0f);
             default:
                 return new Color(1.0f, 0.0f, 0.0f, 1.0f);
         }
