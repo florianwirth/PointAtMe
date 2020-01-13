@@ -12,7 +12,7 @@ public class PointCloudManager : MonoBehaviour
     //private string filename;
     public Material matVertex;
     // All .pcd files in directory
-    string[] fileNames;
+    List<string> fileNames;
 
     // GUI
     private float progress = 0;
@@ -56,11 +56,13 @@ public class PointCloudManager : MonoBehaviour
     // height of point cloud which is of our interest measured above ground
     public float upperHeight = 2.6f;
     // representation of points: "lines" or "points" (default)
-    string design = "lines";
+    string design = "points";
     // connect points up to a distance of ...
     float connect_dist = 0.1f;
     // ... for each ... of distance to sensor
     float sensor_dist = 5.0f;
+    // is intensity available? Sometimes there are only zeros in the pcd files...
+    bool intensity_exists = false;
     void Start()
     {
         // Create Resources folder
@@ -69,21 +71,21 @@ public class PointCloudManager : MonoBehaviour
         // Get all .pcd files that are part of a sequence
         if (System.IO.Directory.Exists(LabelToolManager.PathToData + "/pcd"))
         {
-            fileNames = System.IO.Directory.GetFiles(LabelToolManager.PathToData + "/pcd", "*.pcd");
-            if (fileNames.Length > 0)
+            fileNames = System.IO.Directory.GetFiles(LabelToolManager.PathToData + "/pcd", "*.pcd").ToList();
+            if (fileNames.Count > 0)
             {
                 int i = 0;
-                string[] fileNamesFinal = new string[fileNames.Length];
+                string[] fileNamesFinal = new string[fileNames.Count];
                 foreach (string nameOfFile in fileNames)
                 {
-                    string tempString = System.IO.Path.GetFileName(fileNames[i]);
+                    string tempString = Path.GetFileName(fileNames[i]);
                     string tempStringSplit = tempString.Split('.')[0];
                     fileNamesFinal[i] = tempStringSplit;
                     i++;
                 }
-                System.Array.Sort(fileNamesFinal);
+                Array.Sort(fileNamesFinal);
                 numOfPointClouds = fileNamesFinal.Length;
-                fileNames = fileNamesFinal;
+                fileNames = fileNamesFinal.ToList();
                 loadScene(fileNames[LabelToolManager.SequenceIdx]);
                 currentPCName = fileNames[LabelToolManager.SequenceIdx];
             }
@@ -159,7 +161,8 @@ public class PointCloudManager : MonoBehaviour
     {
         currentPCName = fileName;
         // instantiates as loacl variable PCL
-        GameObject PCL = Instantiate(Resources.Load("PointCloudMeshes/" + fileName + "/" + fileName)) as GameObject;
+        Debug.Log(LabelToolManager.PathToPCLMeshes + "/" + fileName + "/" + fileName);
+        GameObject PCL = Instantiate(Resources.Load(LabelToolManager.PathToPCLMeshes + "/" + fileName + "/" + fileName)) as GameObject;
 
         PCL.transform.parent = PointCloud.transform;
         PCL.transform.localScale = PointCloud.transform.localScale;
@@ -235,7 +238,15 @@ public class PointCloudManager : MonoBehaviour
             string[] buffer = sr.ReadLine().Split();
 
             points[i] = new Vector3(float.Parse(buffer[0]) * scale, float.Parse(buffer[2]) * scale, float.Parse(buffer[1]) * scale);
-            colors[i] = intensityToColor(float.Parse(buffer[2]), sensorHeight, upperHeight);
+            if (intensity_exists)
+            {
+                colors[i] = intensityToColor(float.Parse(buffer[3]), 128.0f, 255.0f);
+            }
+            else
+            {
+                colors[i] = intensityToColor(float.Parse(buffer[2]), sensorHeight, upperHeight);
+            }
+            
             // Relocate Points near the origin
 
             // GUI
@@ -370,6 +381,7 @@ public class PointCloudManager : MonoBehaviour
             pointGroup[i].transform.position = SceneObject.transform.position;
             pointGroup[i].transform.rotation = SceneObject.transform.rotation;
         }
+
         if (!(ShowingIdx == LabelToolManager.SequenceIdx))
         {
             changePointCloud(LabelToolManager.SequenceIdx, ShowingIdx);

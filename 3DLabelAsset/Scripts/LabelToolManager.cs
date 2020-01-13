@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LabelToolManager : MonoBehaviour
@@ -16,9 +17,9 @@ public class LabelToolManager : MonoBehaviour
     // path to pcd meshes
     public static string PathToPCLMeshes = path + "Assets/Resources/PointCloudMeshes";
     // array of pcd files in pcd folder
-    public static string[] fileNamesPCD;
+    public static List<string> fileNamesPCD = new List<string>();
     // array of images in image folders
-    public static string[] fileNamesImg;
+    public static List<string> fileNamesImg = new List<string>();
     // list of subfolders
     List<string> subfolders = new List<string> { "pcd", "front", "rear", "left", "right" };
 
@@ -27,11 +28,11 @@ public class LabelToolManager : MonoBehaviour
     private int numOfImages;
 
     // thumbstick push intensity to trigger events:
-    public static float threshold = 0.2f;
+    public static float threshold = 0.7f;
     // small jump in sequence (left thumbstick left or right)
-    public static int small_jump = 1;
+    public static int small_jump = 5;
     // large jump in sequence (left thumbsitck up or down)
-    public static int large_jump = 3;
+    public static int large_jump = 30;
     // scale factors
     public static List<float> scaleFactors = new List<float> { 0.1f, 0.01f };
     // current scale
@@ -105,16 +106,16 @@ public class LabelToolManager : MonoBehaviour
             {
                 if (subfolder == "pcd")
                 {
-                    fileNamesPCD = System.IO.Directory.GetFiles(LabelToolManager.PathToData + "/" + subfolder + "/", "*.pcd");
-                    if (fileNamesPCD.Length > 0)
+                    fileNamesPCD = System.IO.Directory.GetFiles(LabelToolManager.PathToData + "/" + subfolder + "/", "*.pcd").ToList();
+                    if (fileNamesPCD.Count > 0)
                         fileNamesPCD = ReadNames(fileNamesPCD);
                     else
                         Debug.LogError("No .pcd files found in directory: " + LabelToolManager.PathToData + "/" + subfolder + "/");
                 }
                 else
                 {
-                    fileNamesImg = System.IO.Directory.GetFiles(LabelToolManager.PathToData + "/" + subfolder + "/", "*.png");
-                    if (fileNamesImg.Length > 0)
+                    fileNamesImg = System.IO.Directory.GetFiles(LabelToolManager.PathToData + "/" + subfolder + "/", "*.png").ToList();
+                    if (fileNamesImg.Count > 0)
                         fileNamesImg = ReadNames(fileNamesImg);
                     else
                         Debug.LogError("No .png files found in directory: " + LabelToolManager.PathToData + "/" + subfolder + "/");
@@ -125,7 +126,8 @@ public class LabelToolManager : MonoBehaviour
                 Debug.Log("Directory: " + LabelToolManager.PathToData + "/" + subfolder + "/" + " does not exist");
             }
         }
-        numOfImages = fileNamesImg.Length;
+
+        numOfImages = fileNamesImg.Count;
         if ( numOfImages != 0 && PointCloudManager.numOfPointClouds != 0)
         {
             RecordingFrequencyRatio = numOfImages / PointCloudManager.numOfPointClouds;
@@ -139,7 +141,7 @@ public class LabelToolManager : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {        
         DialogOpen = NewTrackDialogs.activeSelf | QualityDialog.activeSelf;
         NewTrackDialogOpen = NewTrackDialogs.activeSelf & !QualityDialog.activeSelf;
         QualityDialogOpen = !NewTrackDialogs.activeSelf & QualityDialog.activeSelf;
@@ -185,11 +187,12 @@ public class LabelToolManager : MonoBehaviour
         // small jump
         if ((OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick)[0] > LabelToolManager.threshold) && !left_thumbstick_in_use && !LabelToolManager.DialogOpen)
         {
-            if (SequenceIdx + small_jump < fileNamesPCD.Length)
+            if (SequenceIdx + small_jump < fileNamesPCD.Count)
             {
                 SequenceIdx += small_jump;
                 // Adjust camera rate to fit the pcd data
-                ImageManager.loadImages_(fileNamesImg[SequenceIdx * RecordingFrequencyRatio]);
+                if(fileNamesImg.Count > SequenceIdx * RecordingFrequencyRatio)
+                    ImageManager.loadImages_(fileNamesImg[SequenceIdx * RecordingFrequencyRatio]);
                 
             }
             left_thumbstick_in_use = true;
@@ -200,17 +203,19 @@ public class LabelToolManager : MonoBehaviour
             {
                 SequenceIdx -= small_jump;
                 // Adjust camera rate to fit the pcd data
-                ImageManager.loadImages_(fileNamesImg[SequenceIdx * RecordingFrequencyRatio]);
+                if (fileNamesImg.Count > SequenceIdx * RecordingFrequencyRatio)
+                    ImageManager.loadImages_(fileNamesImg[SequenceIdx * RecordingFrequencyRatio]);
             }
             left_thumbstick_in_use = true;
         }// large jump
         else if ((OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick)[1] > LabelToolManager.threshold) && !left_thumbstick_in_use && !LabelToolManager.DialogOpen)
         {
-            if (SequenceIdx + large_jump < fileNamesPCD.Length)
+            if (SequenceIdx + large_jump < fileNamesPCD.Count)
             {
                 SequenceIdx += large_jump;
                 // Adjust camera rate to fit the pcd data
-                ImageManager.loadImages_(fileNamesImg[SequenceIdx * RecordingFrequencyRatio]);
+                if (fileNamesImg.Count > SequenceIdx * RecordingFrequencyRatio)
+                    ImageManager.loadImages_(fileNamesImg[SequenceIdx * RecordingFrequencyRatio]);
 
             }
             left_thumbstick_in_use = true;
@@ -221,7 +226,8 @@ public class LabelToolManager : MonoBehaviour
             {
                 SequenceIdx -= large_jump;
                 // Adjust camera rate to fit the pcd data
-                ImageManager.loadImages_(fileNamesImg[SequenceIdx * RecordingFrequencyRatio]);
+                if (fileNamesImg.Count > SequenceIdx * RecordingFrequencyRatio)
+                    ImageManager.loadImages_(fileNamesImg[SequenceIdx * RecordingFrequencyRatio]);
             }
             left_thumbstick_in_use = true;
         }
@@ -270,10 +276,10 @@ public class LabelToolManager : MonoBehaviour
             Debug.LogError("invalid menu number");
     }
 
-    string[] ReadNames(string[] Names)
+    List<string> ReadNames(List<string> Names)
     {
         int i = 0;
-        string[] fileNamesFinal = new string[Names.Length];
+        string[] fileNamesFinal = new string[Names.Count];
         foreach (string _ in Names)
         {
             string tempString = System.IO.Path.GetFileName(Names[i]);
@@ -282,7 +288,8 @@ public class LabelToolManager : MonoBehaviour
             i++;
         }
         System.Array.Sort(fileNamesFinal);
-        return fileNamesFinal;
+
+        return fileNamesFinal.ToList();
     }
 }
 

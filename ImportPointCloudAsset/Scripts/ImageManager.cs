@@ -9,7 +9,6 @@ public class ImageManager : MonoBehaviour
 {
 
     // All .png files in directory
-    private string[] fileNames;
     List<string> subfolders = new List<string> { "front", "rear", "left", "right" };
 
     public static GameObject frontPlane;
@@ -52,7 +51,8 @@ public class ImageManager : MonoBehaviour
 
         SceneObject = GameObject.Find("SceneObject");
 
-        loadImages_(LabelToolManager.fileNamesImg[0]);
+        if(LabelToolManager.fileNamesImg.Count != 0)
+            loadImages_(LabelToolManager.fileNamesImg[0]);
 
     }
 

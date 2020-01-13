@@ -3607,8 +3607,8 @@ MonoBehaviour:
   forceReload: 1
   numPoints: 0
   numPointGroups: 0
-  sensorHeight: 1.7
-  upperHeight: 2.5
+  sensorHeight: 2.4
+  upperHeight: 2.6
 --- !u!1 &611005624
 GameObject:
   m_ObjectHideFlags: 0
@@ -10616,7 +10616,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -80}
-  m_SizeDelta: {x: 300, y: 50}
+  m_SizeDelta: {x: 300, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1888528104
 MonoBehaviour:

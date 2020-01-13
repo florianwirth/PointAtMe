@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PointCloudInfo : MonoBehaviour
 {
-
+    string thisPCDName;
     Text text;
     // Use this for initialization
     void Start()
@@ -17,6 +17,10 @@ public class PointCloudInfo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        text.text = "Current PC name: " + PointCloudManager.currentPCName;
+        if(PointCloudManager.currentPCName != thisPCDName)
+        {
+            text.text = "Current PC name: " + PointCloudManager.currentPCName;
+            thisPCDName = PointCloudManager.currentPCName;
+        }
     }
 }
