@@ -56,7 +56,7 @@ public class PointCloudManager : MonoBehaviour
     // height of point cloud which is of our interest measured above ground
     public float upperHeight = 2.6f;
     // representation of points: "lines" or "points" (default)
-    string design = "lines";
+    string design = "points";
     // connect points up to a distance of ...
     float connect_dist = 0.1f;
     // ... for each ... of distance to sensor
@@ -160,9 +160,8 @@ public class PointCloudManager : MonoBehaviour
     void loadStoredMeshes(string fileName)
     {
         currentPCName = fileName;
-        // instantiates as loacl variable PCL
-        Debug.Log(LabelToolManager.PathToPCLMeshes + "/" + fileName + "/" + fileName);
-        GameObject PCL = Instantiate(Resources.Load(LabelToolManager.PathToPCLMeshes + "/" + fileName + "/" + fileName)) as GameObject;
+        // instantiates as loacl variable PCL, dont change this line!!
+        GameObject PCL = Instantiate(Resources.Load("PointCloudMeshes/" + fileName + "/" + fileName)) as GameObject;
 
         PCL.transform.parent = PointCloud.transform;
         PCL.transform.localScale = PointCloud.transform.localScale;
