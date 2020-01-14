@@ -20,7 +20,7 @@ public class TurnPointcloud : MonoBehaviour
     Vector3 left_pos;
 
     // turning speed multiplier
-    float speed_mltplr = 5.0f;
+    float speed_mltplr = 10.0f;
     // left controller position
     Vector3 left_pos_init;
 

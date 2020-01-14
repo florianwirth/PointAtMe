@@ -267,7 +267,7 @@ public class SetBoxes : MonoBehaviour
     //Generates a random color for bounding box
     public static Color generateColor()
     {
-        Color c = new Color((float)Random.Range(0.2f, 0.9f), (float)Random.Range(0.2f, 0.9f), (float)Random.Range(0.2f, 0.9f), 0.6f);
+        Color c = new Color((float)Random.Range(0.2f, 0.9f), (float)Random.Range(0.2f, 0.9f), (float)Random.Range(0.2f, 0.9f), 0.1f);
         Debug.Log("Color: " + c.a);
         return c;
         

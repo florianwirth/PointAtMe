@@ -7,7 +7,7 @@ public class LabelToolManager : MonoBehaviour
     // path to data
     //static string path: it needs to lead to the folder of the unity project (i.e. the folder "Assets" is within this folder)
 
-    static string path = "C:/Users/wirth/Documents/VR_devel/oculus_label_tool/"; 
+    static string path = "C:/Users/wirth/Documents/VR_devel/label_tool_ws/"; 
     //static string path = @"U:\VR_dev\VR_test_aktuell_BUGFIX/";
 
     // path to raw data
@@ -30,11 +30,11 @@ public class LabelToolManager : MonoBehaviour
     // thumbstick push intensity to trigger events:
     public static float threshold = 0.7f;
     // small jump in sequence (left thumbstick left or right)
-    public static int small_jump = 5;
+    public static int small_jump = 1;
     // large jump in sequence (left thumbsitck up or down)
-    public static int large_jump = 30;
+    public static int large_jump = 4;
     // scale factors
-    public static List<float> scaleFactors = new List<float> { 0.1f, 0.01f };
+    public static List<float> scaleFactors = new List<float> { 0.2f, 0.1f, 0.02f };
     // current scale
     public static int current_scale_idx = 0;
 

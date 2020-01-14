@@ -56,7 +56,7 @@ public class PointCloudManager : MonoBehaviour
     // height of point cloud which is of our interest measured above ground
     public float upperHeight = 2.6f;
     // representation of points: "lines" or "points" (default)
-    string design = "points";
+    string design = "lines";
     // connect points up to a distance of ...
     float connect_dist = 0.1f;
     // ... for each ... of distance to sensor
