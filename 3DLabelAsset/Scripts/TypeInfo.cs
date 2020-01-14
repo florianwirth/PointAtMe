@@ -10,8 +10,6 @@ public class TypeInfo : MonoBehaviour
     int type;
     // text field
     Text text;
-    //local current track id
-    int currentTrackID;
 
     string typeString = "Type: ";
 
@@ -20,7 +18,6 @@ public class TypeInfo : MonoBehaviour
     {
         text = GameObject.Find("CurrentVehicleText").GetComponent<Text>();
         text.text = typeString + "No Type Info";
-        currentTrackID = LabelToolManager.currentTrackID;
     }
 
     // Update is called once per frame

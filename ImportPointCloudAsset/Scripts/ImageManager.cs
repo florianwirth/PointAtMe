@@ -9,7 +9,7 @@ public class ImageManager : MonoBehaviour
 {
 
     // All .png files in directory
-    List<string> subfolders = new List<string> { "front", "rear", "left", "right" };
+    static List<string> subfolders;
 
     public static GameObject frontPlane;
     public static GameObject rearPlane;
@@ -33,9 +33,6 @@ public class ImageManager : MonoBehaviour
     static MeshRenderer leftMR;
     static MeshRenderer rightMR;
 
-    bool Thumbstick_released = true;
-    int idx = 0;
-
     // Use this for initialization
     void Start()
     {
@@ -51,14 +48,18 @@ public class ImageManager : MonoBehaviour
 
         SceneObject = GameObject.Find("SceneObject");
 
-        if(LabelToolManager.fileNamesImg.Count != 0)
+        subfolders = LabelToolManager.subfolders;
+        subfolders.Remove("pcd");
+
+        if (LabelToolManager.fileNamesImg.Count != 0)
             loadImages_(LabelToolManager.fileNamesImg[0]);
 
     }
 
     public static void loadImages_(string FileName)
     {
-        foreach (string subfolder in new List<string> { "front", "rear", "left", "right" })
+        
+        foreach (string subfolder in subfolders)
         {
             try
             {
@@ -97,7 +98,7 @@ public class ImageManager : MonoBehaviour
                         break;
                 }
             }
-            catch(DirectoryNotFoundException e)
+            catch(DirectoryNotFoundException)
             {
                 Debug.Log("Folder <" + subfolder + "> does not exist. Images will not be displayed.");
             }

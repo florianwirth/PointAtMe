@@ -44,9 +44,8 @@ public class PointCloudManager : MonoBehaviour
     private Color[] colors;
     private Vector3 minValue;
 
-    public static int ShowingIdx = 0;
-
-    private bool Thumbstick_released = true;
+    // idx of the current scene
+    public static int showing_idx = 0;
 
     // Current PointCloud name
     public static string currentPCName = "UNKNOWN";
@@ -56,7 +55,7 @@ public class PointCloudManager : MonoBehaviour
     // height of point cloud which is of our interest measured above ground
     public float upperHeight = 2.6f;
     // representation of points: "lines" or "points" (default)
-    string design = "points";
+    string design = "lines";
     // connect points up to a distance of ...
     float connect_dist = 0.1f;
     // ... for each ... of distance to sensor
@@ -175,7 +174,7 @@ public class PointCloudManager : MonoBehaviour
                 pointGroup[i].transform.position = SceneObject.transform.position;
                 pointGroup[i].transform.rotation = SceneObject.transform.rotation;
             }
-            catch (NullReferenceException e)
+            catch (NullReferenceException)
             {
                 Debug.Log("Maybe not all PointGroups were loaded correctly.");
             }
@@ -309,7 +308,6 @@ public class PointCloudManager : MonoBehaviour
         {
             // Lines
             Vector3[] myPoints = new Vector3[nPoints];
-            List<Vector3> linePoints = new List<Vector3>(0);
             int[] indeciesLine = new int[2 * (nPoints - 1)];
             Color[] myLineColors = new Color[nPoints];
             int num = 0;
@@ -318,7 +316,6 @@ public class PointCloudManager : MonoBehaviour
                 myPoints[i] = points[id * limitPoints + i] - minValue;
 
             }
-            bool flag = true;
             for (int i = 0; i < nPoints - 1; i++)
             {
                 float threshold = Vector3.Magnitude(myPoints[i]) / (sensor_dist * LabelToolManager.scaleFactors[LabelToolManager.current_scale_idx]) * connect_dist * LabelToolManager.scaleFactors[LabelToolManager.current_scale_idx];
@@ -381,10 +378,10 @@ public class PointCloudManager : MonoBehaviour
             pointGroup[i].transform.rotation = SceneObject.transform.rotation;
         }
 
-        if (!(ShowingIdx == LabelToolManager.SequenceIdx))
+        if (!(showing_idx == LabelToolManager.SequenceIdx))
         {
-            changePointCloud(LabelToolManager.SequenceIdx, ShowingIdx);
-            ShowingIdx = LabelToolManager.SequenceIdx;
+            changePointCloud(LabelToolManager.SequenceIdx, showing_idx);
+            showing_idx = LabelToolManager.SequenceIdx;
         }
     }
 

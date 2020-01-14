@@ -21,7 +21,7 @@ public class LabelToolManager : MonoBehaviour
     // array of images in image folders
     public static List<string> fileNamesImg = new List<string>();
     // list of subfolders
-    List<string> subfolders = new List<string> { "pcd", "front", "rear", "left", "right" };
+    public static List<string> subfolders = new List<string> { "pcd", "front", "rear", "left", "right" };
 
     //integer value ratio of pcd recording frequancy (i.e. 10Hz) to image recording frequency (i.e. 10Hz), i.e ratio = 1:
     private int RecordingFrequencyRatio;
@@ -51,7 +51,6 @@ public class LabelToolManager : MonoBehaviour
 
     // Dialogs
     static GameObject NewTrackDialogs;
-    static GameObject BoxCollection;
     static GameObject QualityDialog;
 
     // Total number of tracks
@@ -75,9 +74,6 @@ public class LabelToolManager : MonoBehaviour
     // this variable states which menu is currently active
     static public int activeDialog = 0;
 
-    // Which dialog is currently active? 
-    bool newTracksDialogActive = false;
-    bool QualityDialogActive = false;
     // list with track information
     public static List<TrackInformation> trackInformationList = new List<TrackInformation>();
 
@@ -86,7 +82,6 @@ public class LabelToolManager : MonoBehaviour
     {
         //Assign non public game objects
         NewTrackDialogs = GameObject.Find("NewTrackDialogs");
-        BoxCollection = GameObject.Find("BoxCollection");
         QualityDialog = GameObject.Find("QualityDialog");
 
         menu[0] = GameObject.Find("VehicleTypeDialog");
