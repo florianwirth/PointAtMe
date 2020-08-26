@@ -6,7 +6,7 @@
 
 With this 3D Label Tool the user utilizes Oculus VR in order to annotate in 3D point clouds. Originally, the tool was developed for labeling traffic participants, but it can be used for any kind of object. Meta information about traffic participants can be added in-game. 
 
-**Input**: The tool requires ASCII .pcd point cloud files as defined by the [Point Cloud Library](http://pointclouds.org/documentation/tutorials/pcd_file_format.php). You can work sequence based through the point clouds.
+**Input**: The tool requires ASCII .pcd point cloud files as defined by the [Point Cloud Library](https://pcl.readthedocs.io/projects/tutorials/en/latest/pcd_file_format.html?highlight=format) (See subsection "Example"). You can work sequence based through the point clouds.
 
 **Output**: .txt files with a list of objects per point cloud. You get track, meta information, position (xyz), orientation (as a Quaternion xyzw) and the last three digits define the scale (xyz) of the bounding box relative to the sensor's origin (the origin of the point cloud file, respectively).   
 
