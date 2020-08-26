@@ -97,7 +97,7 @@ If you are satisfied with your track, press `B` again and continue with the next
 
 ## Citation
 
-If you are using PointAtMe for for research, we would be pleased if you cite our publication:
+If you are using PointAtMe for research, we will be pleased if you cite our publication:
 ```latex
 @inproceedings{wirth2019pointatme,
   title     = {PointAtMe: Efficient 3D Point Cloud Labeling in Virtual Reality},
@@ -109,7 +109,7 @@ If you are using PointAtMe for for research, we would be pleased if you cite our
 }
 ```
 
-Despite we mentioned that our tool will be uploaded to the asset store to make installation handier, so far, we didn't. This is due to the growing amount of settings that can be personalized to your needs. It's easier to set them up directly with a keyboard in the code than instroducing more VR user interfaces. 
+Despite we mentioned that our tool will be uploaded to the Unity Asset Store store to make installation handier, so far, we didn't. This is due to the growing amount of settings that can be personalized to your needs. It's easier to set them up directly with a keyboard in the code than introducing more VR user interfaces. 
 
 
 ## Contributors / Contact
